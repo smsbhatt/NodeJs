@@ -1,0 +1,34 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+</head>
+<body>
+
+<form  name="f1" action="/login" method="post">
+    <input type="text" name="usn">
+    <input type="text" name="psw">
+    <input type="submit" name="">
+</form>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('validate', {'uname':$('#usn').val(),'pass':$('#psw').val()});
+        $('#m').val('');
+        return true;
+      });
+      // socket.on('Success', function(msg){
+      //   if (msg) {
+      //       window.location.replace('/home');
+      //   }else{
+      //       window.location.replace('/');
+      //   }
+      // });
+      
+    </script>
+
+</body>
+</html>
