@@ -14,7 +14,7 @@ module.exports = class sql {
 	            uid = rows[0].user_id.toString();
 	            console.log('uid ::', uid);
 	        }
-        	 callback(uid);
+        	 callback(rows);
         });
        
     }

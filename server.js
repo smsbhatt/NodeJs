@@ -6,12 +6,16 @@ let Sql = require("./mysql.js")();
 var io = require('socket.io')(http);
 var passport = require('passport');
 var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-require('./passport')(passport);
+var logger=require('logger');
+var morgan = require('morgan');
 
+require('./passport')(passport);
+	
 	app.use(bodyParser());
-	app.use(urlencodedParser());
+	app.use(morgan(':url :response-time'));
+	app.set('view engine', 'ejs'); 
+	//app.use(logger());
+	//app.use(urlencodedParser());
 	// set up our express application
 	//app.use(express.logger('dev')); // log every request to the console
 	//app.use(express.cookieParser()); // read cookies (needed for auth)
