@@ -6,16 +6,18 @@ module.exports = class sql {
     }
     
     Login(usn, psw, callback) {
-        var uid;
+        
         mySql.query('SELECT * FROM Users where username=? and psw=?', [usn, psw], function(err, rows) {
             if (err) throw err;
-            if(rows.length>0){
-	            console.log('Data received from Db:\n');
-	            uid = rows[0].user_id.toString();
-	            console.log('uid ::', uid);
-	        }
-        	 callback(rows);
+        	callback(rows);
         });
        
+    }
+    Fetch_All_Products(callback){
+        mySql.query('Select pd.url,pd.prod_id,pd.price,pd.qty,pd.name"pdname",b.name"bname",c.name"cname",pd.About from Product_Details pd,Category c,Brands b where pd.cat_id=c.Cat_id and pd.Brand_id=b.Brand_id', function(err, rows) {
+            if (err) throw err;
+            callback(rows);
+        });
+        
     }
 }

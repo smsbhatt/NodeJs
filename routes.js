@@ -34,6 +34,13 @@ module.exports = function(app, io, passport) {
         //res.redirect('/home');
     });
     app.get('/home', function(req, res) {
-        res.render(__dirname + '/home.ejs',{message: user[0].UserName.toString()});
+        res.render(__dirname + '/home.ejs',{message: {FName:user[0].FName,LName:user[0].LName}});
+    });
+    app.get('/view_products', function(req, res) {
+        Sql.Fetch_All_Products(function(response){
+            console.log('products:::',response);
+            res.render(__dirname + '/View_products.ejs',{rs:response});
+        })
+        
     });
 }

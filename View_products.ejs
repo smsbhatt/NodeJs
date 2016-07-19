@@ -1,0 +1,115 @@
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/heroic-features.css" rel="stylesheet">
+    <link href="./css/shop-homepage.css" rel="stylesheet">
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+     <%
+     
+ function addToCart(product, pid) {
+     // Retrieve the cart object from local storage
+     if (localStorage && localStorage.getItem('cart')) {
+         var cart = JSON.parse(localStorage.getItem('cart'));
+         cart[pid] = product;
+         localStorage.setItem('cart', JSON.stringify(cart));
+     }
+ }
+
+ function Add(prod_id, name, brand, qty, price, about) {
+     if (qty <= 0) {
+         document.getElementById("CartErr" + prod_id).innerHTML = 'Item is out of order';
+         return;
+     }
+     var cart = {};
+     cart[prod_id] = [];
+     var product = {};
+     if (localStorage && localStorage.getItem('cart')) {
+         var cart = JSON.parse(localStorage.getItem('cart'));
+         if (cart[prod_id] != undefined) {
+             document.getElementById("CartErr" + prod_id).innerHTML = 'Item is already in Cart';
+             return;
+         }
+     } else {
+         cart = {};
+         cart[prod_id] = [];
+     }
+     localStorage.setItem('cart', JSON.stringify(cart));
+     product.id = prod_id;
+     product.name = name;
+     product.brand = brand;
+     product.price = price;
+     product.quantity = qty;
+     product.About = about;
+     product.qty = 1;
+     addToCart(product, prod_id);
+     document.getElementById("CartErr" + prod_id).innerHTML = 'Added to cart';
+     return true;
+ } 
+ %>
+       <%
+    var count=0;%>
+  
+    <center> <h3>Product Details</h3>
+       <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="lead">Shop Name</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">Category 1</a>
+                    <a href="#" class="list-group-item">Category 2</a>
+                    <a href="#" class="list-group-item">Category 3</a>
+                </div>
+            </div>
+        <div class="col-md-9">  
+        <div class="row">
+
+          <%=rs%>      
+          <%var len=rs.length%>    
+       <%for(i=0;i<len;i++){
+       count++;%>
+       
+       <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="thumbnail">
+                    <a href="view_product_details_guest.jsp?pid=<%=rs[i].Prod_id%>"><img src="./Images/<%=rs[i].url%>" style="width:300px;height:200px;" alt="Product"/>
+                   
+                    <div class="caption">
+                        <h4><%=rs[i].pdname%></h4><h6 class="pull-right">$<%=rs[i].price%></h6>
+                        
+                        
+                        <p><%=rs[i].bname%>,<%=rs[i].cname%></p>
+                       
+                       
+                            
+                        </p>
+                       
+                    </div></a>
+                        
+                    <input class="btn btn-primary" type="Submit" name="cart" onclick=" return Add(<%=rs[i].Prod_id%>,'<%=rs[i].pdname%>','<%=rs[i].bname%>',<%=rs[i].qty%>,<%=rs[i].price%>,'<%=rs[i].About%>')" value="Add to Cart"/>
+                            <p><span id="CartErr<%=rs[i].Prod_id%>">**</span></p>  
+                </div>
+            </div> 
+          
+       <%}
+       if(count<=0){%>
+            <h3>Web Site Under Construction<h3>
+            <h3>No products in the list<h3>
+       <% }
+       %>
+       
+         </div>
+        </div>
+         </div>
+        </div>
+      
+       </center>
+   
+    <center><span id="crtshow">**</span></center>
+  
+    </body>
+</html>
